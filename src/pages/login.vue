@@ -20,9 +20,18 @@
           required
         ></v-text-field>
 
-        <v-btn :loading="isLoading" block color="primary" type="submit">
-          Entrar
-        </v-btn>
+        <v-row>
+          <v-col cols="6">
+            <v-btn block color="secondary" @click="goToRegister">
+              Registrar
+            </v-btn>
+          </v-col>
+          <v-col cols="6">
+            <v-btn :loading="isLoading" block color="primary" type="submit">
+              Entrar
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-form>
 
       <v-alert v-if="errorMessage" type="error" class="mt-4" dismissible>
@@ -62,6 +71,10 @@ export default {
       } finally {
         this.isLoading = false;
       }
+    },
+
+    goToRegister() {
+      this.$router.push('/register'); // Redireciona para a página de registro
     }
   }
 };
