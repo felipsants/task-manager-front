@@ -42,17 +42,23 @@
 </template>
 
 <script>
+import { useAuthStore } from '@/store/auth';
+import { ref } from 'vue';
+
 export default {
-  data() {
-    return {
-      credentials: {
+    setup() {
+      const authStore = useAuthStore();
+
+      // Criamos refs para armazenar os dados do formulário
+      const credentials = ref({
         username: '',
         password: ''
-      },
-      errorMessage: '',
-      isLoading: false
-    };
-  },
+      });
+      const errorMessage = ref('');
+      const isLoading = ref(false);
+
+      return { authStore, credentials, errorMessage, isLoading };
+    },
   methods: {
     async submitLogin() {
       this.isLoading = true;
@@ -60,28 +66,19 @@ export default {
 
       try {
         const response = await this.$axios.post('http://127.0.0.1:8000/login/', this.credentials);
-        const { access, refresh } = response.data;
+        const { access } = response.data;
 
-        localStorage.setItem('auth_token', access);
-        localStorage.setItem('refresh_token', refresh);
+        if (!access) throw new Error('Token não recebido.');
 
-        this.$router.push('/dashboard'); // Redireciona para o dashboard ou outra página
+        this.authStore.login(access); 
+
+        this.$router.push('/dashboard');
       } catch (error) {
-        this.errorMessage = error.response?.data?.detail || 'Erro ao fazer login. Verifique suas credenciais.';
+        this.errorMessage = error.response?.data?.detail || 'Erro ao fazer login.';
       } finally {
         this.isLoading = false;
       }
-    },
-
-    goToRegister() {
-      this.$router.push('/register'); // Redireciona para a página de registro
     }
   }
 };
 </script>
-
-<style scoped>
-.v-card {
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-</style>
