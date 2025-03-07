@@ -22,14 +22,19 @@ const fetchTasks = async () => {
 // Atualiza o status da task (completa/incompleta)
 const toggleTask = async (task) => {
   try {
-    const token = localStorage.getItem('auth_token')
-    task.completed = !task.completed  // Alterna entre concluída e não concluída
-    await axios.patch(`http://127.0.0.1:8000/tasks/${task.id}/`, 
-      { completed: task.completed },
+    const token = localStorage.getItem('auth_token');
+
+    // Envia a solicitação com o estado contrário ao atual
+    const response = await axios.patch(`http://127.0.0.1:8000/tasks/${task.id}/`, 
+      { completed: !task.completed },
       { headers: { Authorization: `Bearer ${token}` } }
-    )
+    );
+
+    // Agora atualiza a interface com a resposta do backend
+    task.completed = response.data.completed;
+
   } catch (error) {
-    console.error('Erro ao atualizar task:', error)
+    console.error('Erro ao atualizar task:', error);
   }
 }
 
@@ -52,7 +57,10 @@ onMounted(fetchTasks)
       <v-list>
         <v-list-item v-for="task in tasks" :key="task.id">
           <template v-slot:prepend>
-            <v-checkbox v-model="task.completed" @change="() => toggleTask(task)"></v-checkbox>
+            <v-checkbox 
+              :model-value="task.completed" 
+              @change="toggleTask(task)" 
+            ></v-checkbox>
           </template>
           <v-list-item-content>
             <v-list-item-title :class="{ 'text-decoration-line-through': task.completed }">
