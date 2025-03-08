@@ -4,6 +4,7 @@ import Login from '../pages/login.vue';
 import Dashboard from '../pages/dashboard.vue';
 import Create from '../pages/createTask.vue';
 import RegisterUser from '../pages/createUser.vue';
+import SessionExpired from '../pages/sessionExpired.vue';
 
 const routes = [
   { path: '/', component: Home },
@@ -11,6 +12,7 @@ const routes = [
   { path: '/dashboard', component: Dashboard },
   { path: '/create', component: Create},
   { path: '/register', component: RegisterUser},
+  { path: '/sessionExpired', component: SessionExpired}
 ];
 const router = createRouter({
   history: createWebHistory(),
