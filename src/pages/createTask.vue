@@ -1,6 +1,6 @@
 <template>
-    <v-container>
-      <v-card class="pa-5">
+    <v-container class="container-center">
+      <v-card class="pa-6 my-frosted-card custom-card">
         <v-card-title class="text-h5">Criar Nova Task</v-card-title>
         <v-divider></v-divider>
   
@@ -61,6 +61,20 @@ const createTask = async () => {
 };
 </script>
 
-<style>
+<style scoped>
+.my-frosted-card {
+  background: rgba(70, 70, 70, 0.3); /* cor branca com opacidade */
+  backdrop-filter: blur(10px);          /* aplica o efeito de desfoque */
+  -webkit-backdrop-filter: blur(10px);   /* para compatibilidade com WebKit */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* borda sutil */
+  border-radius: 16px;                   /* bordas arredondadas */
+}
 
+.container-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh; /* Garante que ocupa toda a tela */
+  width: 100vw; /* Garante largura total */
+}
 </style>
