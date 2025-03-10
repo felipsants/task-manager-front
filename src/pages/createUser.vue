@@ -1,6 +1,6 @@
 <template>
-    <v-container>
-        <v-card>
+    <v-container class="container-center">
+        <v-card class="pa-6 my-frosted-card custom-card" >
         <v-card-title>Criar Usuário</v-card-title>
         <v-card-text>
             <v-form @submit.prevent="createUser">
@@ -59,3 +59,26 @@ const createUser = async () => {
     }
 };
 </script>
+
+<style scoped>
+.my-frosted-card {
+  background: rgba(70, 70, 70, 0.3); /* cor branca com opacidade */
+  backdrop-filter: blur(10px);          /* aplica o efeito de desfoque */
+  -webkit-backdrop-filter: blur(10px);   /* para compatibilidade com WebKit */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* borda sutil */
+  border-radius: 16px;                   /* bordas arredondadas */
+}
+
+.custom-card {
+  width: 600px !important; /* Força o tamanho */
+  max-width: 90%; /* Garante responsividade */
+}
+
+.container-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Garante que ocupa toda a tela */
+  width: 100vw; /* Garante largura total */
+}
+</style>

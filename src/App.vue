@@ -1,6 +1,6 @@
 <template>
   <v-app class="custom-background">
-    <v-app-bar app>
+    <v-app-bar v-if="showNav" app>
       <v-toolbar-title>Task Manager</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn v-if="!authStore.isAuthenticated" text to="/login">Login</v-btn>
@@ -15,10 +15,14 @@
 <script setup>
 import { useAuthStore } from '@/store/auth';
 import { useRouter } from 'vue-router';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 
 const authStore = useAuthStore();
 const router = useRouter();
+
+const showNav = computed(() => {
+  return !['/login', '/register'].includes(router.currentRoute.value.path);
+});
 
 // Garante que a autenticação seja verificada ao carregar a aplicação
 onMounted(() => {
@@ -36,10 +40,6 @@ const handleLogout = () => {
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #a0fffa;
-}
-
-.custom-background {
-  background-color: #a0fffa;
+  background-color: transparent !important;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <v-container class="fill-height d-flex justify-center align-center">
-    <v-card class="pa-6" max-width="400">
+  <v-container class="container-center">
+    <v-card class="pa-6 my-frosted-card" max-width="400">
       <v-card-title class="text-h5 text-center">Login</v-card-title>
       <v-card-subtitle class="text-center">Acesse sua conta</v-card-subtitle>
 
@@ -46,19 +46,19 @@ import { useAuthStore } from '@/store/auth';
 import { ref } from 'vue';
 
 export default {
-    setup() {
-      const authStore = useAuthStore();
+  setup() {
+    const authStore = useAuthStore();
 
-      // Criamos refs para armazenar os dados do formulário
-      const credentials = ref({
-        username: '',
-        password: ''
-      });
-      const errorMessage = ref('');
-      const isLoading = ref(false);
+    // Criamos refs para armazenar os dados do formulário
+    const credentials = ref({
+      username: '',
+      password: ''
+    });
+    const errorMessage = ref('');
+    const isLoading = ref(false);
 
-      return { authStore, credentials, errorMessage, isLoading };
-    },
+    return { authStore, credentials, errorMessage, isLoading };
+  },
   methods: {
     async submitLogin() {
       this.isLoading = true;
@@ -70,7 +70,7 @@ export default {
 
         if (!access) throw new Error('Token não recebido.');
 
-        this.authStore.login(access); 
+        this.authStore.login(access);
 
         this.$router.push('/dashboard');
       } catch (error) {
@@ -78,7 +78,29 @@ export default {
       } finally {
         this.isLoading = false;
       }
+    },
+    goToRegister() {
+      this.$router.push('/register');
     }
   }
 };
 </script>
+
+<style scoped>
+
+.my-frosted-card {
+  background: rgba(70, 70, 70, 0.3); /* cor branca com opacidade */
+  backdrop-filter: blur(10px);          /* aplica o efeito de desfoque */
+  -webkit-backdrop-filter: blur(10px);   /* para compatibilidade com WebKit */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* borda sutil */
+  border-radius: 16px;                   /* bordas arredondadas */
+}
+
+.container-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Garante que ocupa toda a tela */
+  width: 100vw; /* Garante largura total */
+}
+</style>
