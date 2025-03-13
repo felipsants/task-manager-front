@@ -38,6 +38,17 @@ const toggleTask = async (task) => {
   }
 }
 
+const deleteTask = async (task) => {
+  try {
+    const token = localStorage.getItem('auth_token');
+    await axios.delete(`http://127.0.0.1:8000/tasks/${task.id}/`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    tasks.value = tasks.value.filter(t => t.id !== task.id);  // Remove a task da lista
+  } catch (error) {
+    console.error('Erro ao deletar task:', error);
+  }
+}
 // Navega para a página de criação de task
 const goToCreate = () => {
   router.push('/create')
@@ -62,12 +73,19 @@ onMounted(fetchTasks)
               @change="toggleTask(task)" 
             ></v-checkbox>
           </template>
+
           <v-list-item-content>
             <v-list-item-title :class="{ 'text-decoration-line-through': task.completed }">
               {{ task.title }}
             </v-list-item-title>
             <v-list-item-subtitle>{{ task.description }}</v-list-item-subtitle>
           </v-list-item-content>
+
+          <template v-slot:append>
+            <v-btn icon variant="text" @click="deleteTask(task)" class="delete-btn">
+              <v-icon color="grey-darken-1">mdi-delete</v-icon>
+            </v-btn>
+          </template>
         </v-list-item>
       </v-list>
 
@@ -103,5 +121,14 @@ onMounted(fetchTasks)
   align-items: center;
   height: 80vh; /* Garante que ocupa toda a tela */
   width: 100vw; /* Garante largura total */
+}
+
+.delete-icon{
+  font-size:24px;
+  color: #757575 !important;
+}
+
+.delete-btn {
+  min-width: 36px; /* Garante um tamanho mínimo */
 }
 </style>

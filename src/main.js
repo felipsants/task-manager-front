@@ -6,6 +6,7 @@ import router from './router'
 import { createPinia } from 'pinia';
 import vuetify from './plugins/vuetify';
 import axios from 'axios'
+import '@mdi/font/css/materialdesignicons.css'
 
 axios.interceptors.response.use(
     (response) => {
